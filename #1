@@ -19,3 +19,55 @@ SELECT DISTINCT maker FROM product WHERE type = 'printer'
 
 REQUEST
 SELECT DISTINCT model, ram, screen FROM Laptop WHERE price >1000
+
+4. Найдите все записи таблицы Printer для цветных принтеров.
+
+REQUEST
+SELECT * FROM Printer WHERE color = 'y'
+
+5. Найдите номер модели, скорость и размер жесткого диска ПК, имеющих 12x или 24x CD и цену менее 600 дол.
+
+REQUEST
+SELECT DISTINCT model, speed, hd FROM PC WHERE ((CD = '12x' OR CD = '24x') AND price < 600)
+
+6.Для каждого производителя, выпускающего ПК-блокноты c объёмом жесткого диска не менее 10 Гбайт, найти скорости таких ПК-блокнотов. Вывод: производитель, скорость.
+
+REQUEST
+SELECT DISTINCT p.maker, l.speed
+FROM laptop l
+JOIN product p ON p.model = l.model
+WHERE l.hd >=10
+
+7. Найдите номера моделей и цены всех имеющихся в продаже продуктов (любого типа) производителя B (латинская буква).
+
+REQUEST
+SELECT DISTINCT product.model, pc.price FROM Product JOIN PC ON product.model = pc.model WHERE product.maker = 'B'
+UNION
+SELECT DISTINCT product.model, laptop.price FROM Product JOIN Laptop ON product.model = laptop.model WHERE product.maker = 'B'
+UNION 
+SELECT DISTINCT product.model, printer.price FROM Product JOIN Printer ON product.model = printer.model WHERE product.maker = 'B'
+
+8.Найдите производителя, выпускающего ПК, но не ПК-блокноты.
+
+REQUEST
+SELECT DISTINCT product.maker FROM Product
+WHERE type = 'PC'
+EXCEPT
+SELECT DISTINCT product.maker
+FROM product
+Where type = 'laptop'
+
+9.Найдите производителей ПК с процессором не менее 450 Мгц. Вывести: Maker
+
+REQUEST
+SELECT DISTINCT product.maker FROM Product
+JOIN PC ON product.model = pc.model 
+WHERE speed >= 450
+
+10. Найдите модели принтеров, имеющих самую высокую цену. Вывести: model, price
+
+REQUEST
+SELECT DISTINCT model, price FROM Printer
+WHERE price = (SELECT max(price) FROM Printer)
+
+
