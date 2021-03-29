@@ -92,4 +92,10 @@ SELECT AVG(speed) FROM pc, product
 WHERE pc.model = product.model 
 AND product.maker = 'A'
 
+15. Найдите размеры жестких дисков, совпадающих у двух и более PC. Вывести: HD
+
+REQUEST
+SELECT hd FROM PC
+GROUP BY(hd)
+HAVING COUNT (model) >= 2
 
